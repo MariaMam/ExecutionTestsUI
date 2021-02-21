@@ -1,0 +1,58 @@
+<h2 class="content-block">Execution Tests Pivot</h2>
+<div class="content-block dx-card responsive-paddings">
+<dx-pivot-grid id="sales"
+  [allowSorting]="true"
+  [allowFiltering]="true"
+  [allowExpandAll]="true"
+  [height]="1000"
+  [showBorders]="true"
+  [dataSource]="dataSource2"
+  (onCellClick)="onCellClick2($event)"
+  [showColumnGrandTotals]="false"
+  [showRowGrandTotals]="false"
+  [showRowTotals]="false"
+  [showColumnTotals]="false"
+  (onCellPrepared)="onCellPrepared($event)"
+  (onContentReady) ="onCellPrepared($event)"
+  >
+  <dxo-field-chooser [enabled]="false"></dxo-field-chooser>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+</dx-pivot-grid>
+<dx-popup
+    [width]="800"
+    [resizeEnabled]="true"
+    [height]="400"
+	[title]="popupTitle"
+    [(visible)]="popupVisible2"
+    (onShowing)="onPopupShowing2($event)"
+	(onHiding)="onPopupHiding($event)"
+	(onShown)="onPopupShown2($event)"  >
+    
+    <div *dxTemplate="let data of 'content'">       
+        <dx-data-grid #drillDownDataGrid2
+            [dataSource]="dataGridDataSource"
+            [showBorders]="true"
+            [width]="500"
+            [height]="200"          
+            [allowColumnResizing]="true"
+            [columnAutoWidth]="true"
+			(onRowUpdating)="onRowUpdating($event)"    
+            [focusedRowEnabled]="true"
+            [focusedRowIndex]="0" 
+            [showBorders]="true">
+            <dxo-editing
+                [allowUpdating]="true">
+            </dxo-editing>                     
+                <dxi-column  *ngIf ="isSelectionSetOptionItems" dataField="selectedOptionItemId" caption="Experiment Result Answer" dataType="number">   
+                    <dxo-lookup  [dataSource]="selectionSetOptionItemsData" valueExpr="value" displayExpr="text"></dxo-lookup>                       
+                </dxi-column>
+                <dxi-column *ngIf ="!isSelectionSetOptionItems" dataField="testValue" caption="Experiment Result Value" dataType="number">   
+                    <dxi-validation-rule type="custom" 
+                        [validationCallback]="validateNumber" 
+                        message="The field Freight must be between {parameterPlausibilityMin} and {parameterPlausibilityMax}.">">
+                    </dxi-validation-rule>     
+                </dxi-column>
+        </dx-data-grid>
+    </div>
+</dx-popup>
+</div>

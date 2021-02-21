@@ -1,0 +1,72 @@
+<h2 class="content-block">Task Description</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+
+    Thanks for using the DevExtreme Angular App Template.
+
+      A part of our tests within the R&D are so called “storage stability test”.
+
+      That means we are storing products in different storage cabinets with different temperatures [Climate Condition]
+
+      according to a time line [Periode][PeriodeDuration] = [TimeSerie]!
+
+
+    From time to time (according to the TimeSerie) the products will be rated (numeric or dropdown list) by a
+      specific measure Condition [measureConditionID].
+      We differ between “Numeric” and “SelectionSet” Parameter:
+
+
+    <ul>
+      <li> pH-Value = numeric parameter [double]</li>
+      <li>Appearance = SelectionSet parameter because the answers are given via a predefined DropDown list [List]</li>
+    </ul>
+
+    A part of the ER diagram looks like this:
+
+    <ul>
+      <li> Starting Point is “TestOrderMaster” represents a “test”</li>
+      <li> Products are belonging to a test (1-N relationship)</li>
+      <li> ExecutionTest are belonging to a product. (1-N relationship)</li>
+    </ul>
+   
+    
+
+    So the ExecutionTest table and related tables are very important. It contains all information to build an interface
+    so that our customers can enter their test results in following way:
+
+    <ul>
+      <li> Green background means everything ok</li>
+      <li> Orange background means that the entered data is out of specification.</li>      
+    </ul>
+
+    
+   
+    If the Parameter is from type “Numeric” the table ExecutionTest with the columns
+
+    <ul>
+      <li>[ParameterPlausibilityCheck]</li>
+      <li>[ParameterPlausibilityMin]</li>   
+      <li>[[ParameterPlausibilityMax]]</li>       
+    </ul>    
+
+    Are defining the border:<br>
+    e.g. ParameterPlausibilityCheck = 1<br>
+
+    ParameterPlausibilityMin = 7<br>
+
+    ParameterPlausibilityMax = 8<br>
+
+    If the Value = 9 then Background orange because out of range<br>
+
+    If value = 7,5 then Background green because in Range<br>
+
+
+
+    <p><b>The important thing is that this grid should be dynamical. That means that the count of product can change from test
+    to test.
+
+    And it is important that the product are listed in a horizontal way.</b></p>
+   
+    
+  </div>
+</div>

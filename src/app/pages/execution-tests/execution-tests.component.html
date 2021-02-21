@@ -1,0 +1,68 @@
+
+<h2 class="content-block">Execution Tests Data Grid</h2>
+<div class="content-block dx-card responsive-paddings">
+
+  
+    <dx-data-grid 
+    [dataSource]="executionTestsData" 
+    [remoteOperations]="true" [height]="900" 
+    [focusedRowEnabled]="true"
+    [focusedRowIndex]="0"
+    [showBorders]="true"
+    (onEditorPreparing)="onCellPrepared($event)">
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        
+        <!--<dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>-->
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-editing mode="row" [allowUpdating]="true">
+        </dxo-editing>
+        <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+        <dxi-column cellTemplate="PeriodeIdplusDuration" caption="Time Series">            
+        </dxi-column>
+
+        <div *dxTemplate="let item of 'PeriodeIdplusDuration'">
+            <p class="">{{ item.data.periodeDuration }} {{ item.data.periodeIdplusDuration }}</p>
+        </div>
+
+        <dxi-column dataField="measureConditionId" caption="Measure Conditions" dataType="number">
+            <dxo-lookup [dataSource]="measureConditionsData" valueExpr="id" displayExpr="name"></dxo-lookup>
+        </dxi-column>
+
+        <dxi-column dataField="parameterId" caption="Parameter">
+            <dxo-lookup [dataSource]="parameterNamesData" valueExpr="id" displayExpr="name"></dxo-lookup>
+        </dxi-column>
+
+        <dxi-column dataField="productId" caption="Product" dataType="number">
+            <dxo-lookup [dataSource]="productsData" valueExpr="id" displayExpr="name"></dxo-lookup>
+        </dxi-column>
+        <dxi-column caption="Experiment Results">
+            <dxi-column dataField="selectedOptionItemId" caption="Experiment Result Answer" dataType="number" [setCellValue]="setCellValue">            
+                <dxo-lookup  [dataSource]="selectionSetOptionItemsData" valueExpr="value" displayExpr="text"></dxo-lookup>               
+            </dxi-column>
+            <dxi-column dataField="testValue" caption="Experiment Result Value" dataType="number" [setCellValue]="setCellValue">   
+                <dxi-validation-rule type="custom" 
+                    [validationCallback]="validateNumber" 
+                    message="The field Freight must be between {parameterPlausibilityMin} and {parameterPlausibilityMax}.">">
+                </dxi-validation-rule>     
+            </dxi-column>
+        </dxi-column>
+
+        <div *dxTemplate="let item of 'ExperimentResults'">
+            <div class="" *ngIf="item.parameterId == 8"> 
+                <dxo-lookup  [dataSource]="selectionSetOptionItemsData" valueExpr="value" displayExpr="text"></dxo-lookup> 
+            </div>
+        </div>       
+
+
+        <dxi-column dataField="categoryId" caption="Category" dataType="number" [groupIndex]="1">
+            <dxo-lookup [dataSource]="categoriesData" valueExpr="id" displayExpr="name"></dxo-lookup>
+        </dxi-column>
+
+        <dxi-column dataField="climaticConditionId" caption="Storage Conditions" dataType="number" [groupIndex]="0">
+            <dxo-lookup [dataSource]="storageConditionsData" valueExpr="id" displayExpr="name"></dxo-lookup>
+        </dxi-column>
+    </dx-data-grid>
+    </div>
