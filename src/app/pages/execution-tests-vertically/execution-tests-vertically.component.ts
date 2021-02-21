@@ -36,6 +36,7 @@ export class ExecutionTestsVerticallyComponent {
     parameterPlausibilityMax : any;
 
     url2: string;
+    baseUrl:string;
 
 
     validateNumber(e) {
@@ -49,11 +50,16 @@ export class ExecutionTestsVerticallyComponent {
     }
 
     constructor() {
+
         this.data = new ArrayStore({
             key: "id"
         });
 
-        this.url2 = "https://localhost:5001/api/ExecutionTests";
+        this.baseUrl = window.location.origin;
+
+        this.url2 = this.baseUrl + "/api/ExecutionTests";
+
+        var a = this.url2 + "/GetSelectionSetOptionItems"
 
         this.selectionSetOptionItemsData = AspNetData.createStore({
             key: "Value",
@@ -64,11 +70,9 @@ export class ExecutionTestsVerticallyComponent {
         });
 
 
-
-
         this.dataStore = AspNetData.createStore({
             key: "id",
-            loadUrl: "https://localhost:5001/api/ExecutionTestsPivot/GetExecutionTests",
+            loadUrl: this.url2 +"/GetExecutionTestsPivot",
             updateUrl: this.url2 + "/UpdateExecutionTest",
             onBeforeSend: function (method, ajaxOptions) {
                 ajaxOptions.xhrFields = { withCredentials: true };
@@ -165,8 +169,6 @@ export class ExecutionTestsVerticallyComponent {
     onPopupShowing2(e) {
         var that = this;
         this.drillDownDataSource.store().load().done(function (items) {
-            this.parameterPlausibilityMin = items.parameterPlausibilityMin,
-            this.parameterPlausibilityMax = items.parameterPlausibilityMax,
             that.dataGridDataSource = {
                 store: new ArrayStore({
                     key: that.data.key(),
@@ -178,7 +180,7 @@ export class ExecutionTestsVerticallyComponent {
 
     onCellPrepared(e) {
 
-        if (e.area === "data") {
+       /* if (e.area === "data") {
 
             this.drillDownDataSource = this.dataSource2.createDrillDownDataSource(e.cell);
 
@@ -206,7 +208,7 @@ export class ExecutionTestsVerticallyComponent {
             if (e.row.data.parameterId == 8) {
                 e.editorOptions.disabled = true;
             }
-        }
+        }*/
     }
 
     onPopupHiding(e) {

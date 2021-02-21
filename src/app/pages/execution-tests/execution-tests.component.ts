@@ -1,15 +1,5 @@
 import { Component, enableProdMode } from '@angular/core';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
-import { DxDataGridComponent, DxDataGridModule } from "devextreme-angular";
-import { ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';  
-import { BrowserModule } from '@angular/platform-browser';
-
-
-
-if(!/localhost/.test(document.location.host)) {
-    enableProdMode();
-}
 
 @Component({
     styleUrls: ['execution-tests.component.scss'],
@@ -37,6 +27,8 @@ export class ExecutionTestComponent {
     selectionSetOptionItemsData: any;
     
     url2: string;
+    
+    baseUrl:string;
 
     onCellPrepared(e) {
         
@@ -72,37 +64,12 @@ export class ExecutionTestComponent {
         column.defaultSetCellValue(newData, value);
     }
 
-    constructor() {
-        this.url = "https://js.devexpress.com/Demos/Mvc/api/DataGridWebApi";
-        
-        this.url2 = "https://localhost:5001/api/ExecutionTests";
-        
-        this.dataSource = AspNetData.createStore({
-            key: "OrderID",
-            loadUrl: this.url + "/Orders",
-            insertUrl: this.url + "/InsertOrder",
-            updateUrl: this.url + "/UpdateOrder",
-            deleteUrl: this.url + "/DeleteOrder",
-            onBeforeSend: function(method, ajaxOptions) {
-                ajaxOptions.xhrFields = { withCredentials: true };
-            }
-        });
+    constructor() {              
 
-        this.customersData = AspNetData.createStore({
-            key: "Value",
-            loadUrl: this.url + "/CustomersLookup",
-            onBeforeSend: function(method, ajaxOptions) {
-                ajaxOptions.xhrFields = { withCredentials: true };
-            }
-        });
+        this.baseUrl = window.location.origin;
 
-        this.shippersData = AspNetData.createStore({
-            key: "Value",
-            loadUrl: this.url + "/ShippersLookup",
-            onBeforeSend: function(method, ajaxOptions) {
-                ajaxOptions.xhrFields = { withCredentials: true };
-            }
-        });
+        this.url2 = this.baseUrl + "/api/ExecutionTests";        
+       
 
         this.executionTestsData = AspNetData.createStore({
             key: "id",
